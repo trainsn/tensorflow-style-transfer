@@ -31,6 +31,7 @@ def parse_args():
     parser.add_argument('--max_size', type=int, default=512, help='The maximum width or height of input images')
     parser.add_argument('--content_loss_norm_type', type=int, default=3, choices=[1,2,3], help='Different types of normalization for content loss')
     parser.add_argument('--num_iter', type=int, default=1000, help='The number of iterations to run')
+    parser.add_argument('--gpu', type=str, default=0, help='The GPU visible')
 
     return check_args(parser.parse_args())
 
@@ -97,6 +98,9 @@ def main():
     args = parse_args()
     if args is None:
         exit()
+
+    #specify the gpu used
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
     # initiate VGG19 model
     model_file_path = args.model_path + '/' + vgg19.MODEL_FILE_NAME
